@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.5.1
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: Giannis_Mamalikidis@msn.com
+author_name: Ioannis Mamalikidis
+has_ai_rules: false
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: run-init-cells
+project_short_description: Run all cells marked as 'init' with 1 click
+python_name: run_init_cells
+repository: https://github.com/N1h1l1sT/jupyter-run-init-cells
+test: false
+
