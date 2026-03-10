@@ -1,7 +1,8 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
 import { ICommandPalette, ToolbarButton } from '@jupyterlab/apputils';
+import { CodeCell } from '@jupyterlab/cells';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { INotebookTracker, NotebookActions, NotebookPanel } from '@jupyterlab/notebook';
+import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 import { DisposableDelegate } from '@lumino/disposable';
 
 const COMMAND = 'run-init-cells:run';
@@ -21,29 +22,53 @@ const plugin: JupyterFrontEndPlugin<void> = {
       isEnabled: () => !!tracker.currentWidget,
       execute: async () => {
         const panel = tracker.currentWidget;
-        if (!panel) return;
+        if (!panel) {
+          return;
+        }
         await panel.context.ready;
+        await panel.context.sessionContext.ready;
         const nb = panel.content;
-
-        const originalIndex = nb.activeCellIndex;
-        const scrollNode = nb.node.closest('.jp-WindowedPanel-outer') ?? nb.node;
-        const scrollTop = scrollNode.scrollTop;
-
-        for (let i = 0; i < nb.widgets.length; i++) {
-          const cell = nb.widgets[i];
-          const tags = (cell.model.sharedModel.getMetadata('tags') as string[]) ?? [];
-          if (Array.isArray(tags) && tags.includes(TAG)) {
-            nb.activeCellIndex = i;
-            void NotebookActions.run(nb, panel.context.sessionContext);
-          }
+        const kernel = panel.context.sessionContext.session?.kernel;
+        if (!kernel) {
+          return;
         }
 
-        nb.activeCellIndex = originalIndex;
-        scrollNode.scrollTop = scrollTop;
+        for (const cell of nb.widgets) {
+          const tags = (cell.model.sharedModel.getMetadata('tags') as string[]) ?? [];
+          if (
+            Array.isArray(tags) &&
+            tags.includes(TAG) &&
+            cell instanceof CodeCell
+          ) {
+            const code = cell.model.sharedModel.getSource();
+            if (!code.trim()) {
+              continue;
+            }
+            const cellId = { cellId: cell.model.sharedModel.getId() };
+            cell.model.clearExecution();
+            cell.outputHidden = false;
+            cell.setPrompt('*');
+            cell.model.trusted = true;
+            const future = kernel.requestExecute(
+              { code, stop_on_error: false },
+              false,
+              cellId
+            );
+            cell.outputArea.future = future;
+            void future.done.then(reply => {
+              cell.model.executionCount =
+                reply?.content.status === 'ok'
+                  ? (reply.content as any).execution_count
+                  : null;
+            });
+          }
+        }
       }
     });
 
-    if (palette) palette.addItem({ command: COMMAND, category: 'Notebook Operations' });
+    if (palette) {
+      palette.addItem({ command: COMMAND, category: 'Notebook Operations' });
+    }
 
     app.docRegistry.addWidgetExtension(
       'Notebook',

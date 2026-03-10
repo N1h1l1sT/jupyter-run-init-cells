@@ -56,6 +56,7 @@
     },
     "dependencies": {
         "@jupyterlab/application": "^4.5.5",
+        "@jupyterlab/cells": "^4.5.5",
         "@jupyterlab/docregistry": "^4.5.5",
         "@jupyterlab/notebook": "^4.5.5",
         "@lumino/disposable": "^2.1.4",
