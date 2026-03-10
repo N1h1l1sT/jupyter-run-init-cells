@@ -25,14 +25,21 @@ const plugin: JupyterFrontEndPlugin<void> = {
         await panel.context.ready;
         const nb = panel.content;
 
+        const originalIndex = nb.activeCellIndex;
+        const scrollNode = nb.node.closest('.jp-WindowedPanel-outer') ?? nb.node;
+        const scrollTop = scrollNode.scrollTop;
+
         for (let i = 0; i < nb.widgets.length; i++) {
           const cell = nb.widgets[i];
           const tags = (cell.model.sharedModel.getMetadata('tags') as string[]) ?? [];
           if (Array.isArray(tags) && tags.includes(TAG)) {
             nb.activeCellIndex = i;
-            await NotebookActions.run(nb, panel.context.sessionContext);
+            void NotebookActions.run(nb, panel.context.sessionContext);
           }
         }
+
+        nb.activeCellIndex = originalIndex;
+        scrollNode.scrollTop = scrollTop;
       }
     });
 
