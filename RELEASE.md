@@ -1,4 +1,4 @@
-# Making a new release of run_init_cells
+# Making a new release of jupyter-run-init-cells
 
 The extension can be published to `PyPI` and `npm` manually or using the [Jupyter Releaser](https://github.com/jupyter-server/jupyter_releaser).
 

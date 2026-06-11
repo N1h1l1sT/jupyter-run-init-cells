@@ -7,9 +7,8 @@ has_ai_rules: false
 has_binder: false
 has_settings: false
 kind: frontend
-labextension_name: run-init-cells
+labextension_name: jupyter-run-init-cells
 project_short_description: Run all cells marked as 'init' with 1 click
 python_name: run_init_cells
 repository: https://github.com/N1h1l1sT/jupyter-run-init-cells
 test: false
-

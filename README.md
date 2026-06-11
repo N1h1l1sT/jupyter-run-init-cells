@@ -1,4 +1,4 @@
-# run_init_cells
+# jupyter-run-init-cells
 
 [![Github Actions Status](https://github.com/N1h1l1sT/jupyter-run-init-cells/workflows/Build/badge.svg)](https://github.com/N1h1l1sT/jupyter-run-init-cells/actions/workflows/build.yml)
 
@@ -13,7 +13,7 @@ Run all cells marked as 'init' with 1 click
 To install the extension, execute:
 
 ```bash
-pip install run_init_cells
+pip install jupyter-run-init-cells
 ```
 
 ## Uninstall
@@ -21,7 +21,7 @@ pip install run_init_cells
 To remove the extension, execute:
 
 ```bash
-pip uninstall run_init_cells
+pip uninstall jupyter-run-init-cells
 ```
 
 ## Contributing
@@ -36,7 +36,7 @@ The `jlpm` command is JupyterLab's pinned version of
 
 ```bash
 # Clone the repo to your local environment
-# Change directory to the run_init_cells directory
+# Change directory to the jupyter-run-init-cells directory
 
 # Set up a virtual environment and install package in development mode
 python -m venv .venv
@@ -72,12 +72,12 @@ jupyter lab build --minimize=False
 ### Development uninstall
 
 ```bash
-pip uninstall run_init_cells
+pip uninstall jupyter-run-init-cells
 ```
 
 In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
 command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `run-init-cells` within that folder.
+folder is located. Then you can remove the symlink named `jupyter-run-init-cells` within that folder.
 
 ### Packaging the extension
 

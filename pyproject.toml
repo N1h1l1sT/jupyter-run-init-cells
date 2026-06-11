@@ -1,9 +1,9 @@
 [build-system]
-requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0.3.2"]
+requires = ["hatchling>=1.5.0", "jupyterlab>=4.5.8,<5", "hatch-nodejs-version>=0.3.2"]
 build-backend = "hatchling.build"
 
 [project]
-name = "run_init_cells"
+name = "jupyter-run-init-cells"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
@@ -23,6 +23,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
+    "jupyterlab>=4.5.8,<5",
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
@@ -36,9 +37,12 @@ fields = ["description", "authors", "urls", "keywords"]
 artifacts = ["run_init_cells/labextension"]
 exclude = [".github", "binder"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["run_init_cells"]
+
 [tool.hatch.build.targets.wheel.shared-data]
-"run_init_cells/labextension" = "share/jupyter/labextensions/run-init-cells"
-"install.json" = "share/jupyter/labextensions/run-init-cells/install.json"
+"run_init_cells/labextension" = "share/jupyter/labextensions/jupyter-run-init-cells"
+"install.json" = "share/jupyter/labextensions/jupyter-run-init-cells/install.json"
 
 [tool.hatch.build.hooks.version]
 path = "run_init_cells/_version.py"
@@ -67,7 +71,7 @@ version_cmd = "hatch version"
 
 [tool.jupyter-releaser.hooks]
 before-build-npm = [
-    "python -m pip install 'jupyterlab>=4.0.0,<5'",
+    "python -m pip install 'jupyterlab>=4.5.8,<5'",
     "jlpm",
     "jlpm build:prod"
 ]

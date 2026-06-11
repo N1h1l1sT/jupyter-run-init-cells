@@ -5,11 +5,11 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 import { DisposableDelegate } from '@lumino/disposable';
 
-const COMMAND = 'run-init-cells:run';
+const COMMAND = 'jupyter-run-init-cells:run';
 const TAG = 'init';
 
 const plugin: JupyterFrontEndPlugin<void> = {
-  id: 'run-init-cells',
+  id: 'jupyter-run-init-cells',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ICommandPalette],
@@ -28,39 +28,41 @@ const plugin: JupyterFrontEndPlugin<void> = {
         await panel.context.ready;
         await panel.context.sessionContext.ready;
         const nb = panel.content;
-        const kernel = panel.context.sessionContext.session?.kernel;
-        if (!kernel) {
+        const { sessionContext } = panel.context;
+        if (!sessionContext.session?.kernel) {
           return;
         }
 
+        const initCells: CodeCell[] = [];
         for (const cell of nb.widgets) {
           const tags = (cell.model.sharedModel.getMetadata('tags') as string[]) ?? [];
-          if (
-            Array.isArray(tags) &&
-            tags.includes(TAG) &&
-            cell instanceof CodeCell
-          ) {
+          if (Array.isArray(tags) && tags.includes(TAG) && cell instanceof CodeCell) {
             const code = cell.model.sharedModel.getSource();
             if (!code.trim()) {
               continue;
             }
-            const cellId = { cellId: cell.model.sharedModel.getId() };
             cell.model.clearExecution();
             cell.outputHidden = false;
-            cell.setPrompt('*');
+            cell.model.executionState = 'running';
             cell.model.trusted = true;
-            const future = kernel.requestExecute(
-              { code, stop_on_error: false },
-              false,
-              cellId
-            );
-            cell.outputArea.future = future;
-            void future.done.then(reply => {
-              cell.model.executionCount =
-                reply?.content.status === 'ok'
-                  ? (reply.content as any).execution_count
-                  : null;
-            });
+            initCells.push(cell);
+          }
+        }
+
+        let nextCellIndex = 0;
+        try {
+          for (; nextCellIndex < initCells.length; nextCellIndex++) {
+            const cell = initCells[nextCellIndex];
+            const reply = await CodeCell.execute(cell, sessionContext);
+            cell.model.executionState = 'idle';
+            if (reply?.content.status !== 'ok') {
+              nextCellIndex++;
+              break;
+            }
+          }
+        } finally {
+          for (; nextCellIndex < initCells.length; nextCellIndex++) {
+            initCells[nextCellIndex].model.executionState = 'idle';
           }
         }
       }
@@ -79,7 +81,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             tooltip: 'Run all init cells',
             onClick: () => void app.commands.execute(COMMAND)
           });
-          panel.toolbar.insertItem(10, 'runInitCells', button);
+          panel.toolbar.insertItem(10, 'jupyterRunInitCells', button);
           return new DisposableDelegate(() => button.dispose());
         }
       })()
