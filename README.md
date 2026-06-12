@@ -4,6 +4,17 @@
 
 Run all cells marked as 'init' with 1 click
 
+## How to use
+1. Mark the cells you want to run on notebook load with the tag `init`. You can add tags to a cell by clicking on the cell, then clicking on the "Tags" button in the toolbar (or using the keyboard shortcut `Ctrl+Shift+T`), and typing `init` in the input field.
+
+[![Add tag to cell](./documentation/1.%20Mark%20Cells%20as%20init%20with%20a%20tag.png)](./documentation/1.%20Mark%20Cells%20as%20init%20with%20a%20tag.png)
+
+2. Click on the "Run Init Cells" button in the toolbar (or use the keyboard shortcut `Ctrl+I`) to run all cells marked with the `init` tag.
+
+[![Run init cells](./documentation/2.%20Click%20the%20Button%20or%20Ctrl-I.png)](./documentation/2.%20Run%20init%20cells.png)
+
+3. Any cells not marked with the `init` tag will not be run.
+
 ## Requirements
 
 - JupyterLab >= 4.5.0
