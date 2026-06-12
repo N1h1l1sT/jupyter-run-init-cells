@@ -4,3 +4,4 @@ node_modules
 **/package.json
 !/package.json
 run_init_cells
+README*Initialization_cells_in_Jupyter_7.md
