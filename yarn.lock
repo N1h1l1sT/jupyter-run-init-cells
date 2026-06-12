@@ -5161,8 +5161,8 @@ __metadata:
     eslint-plugin-prettier: ^5.0.0
     npm-run-all2: ^7.0.1
     prettier: ^3.0.0
-    react: ^19.2.7
-    react-dom: ^19.2.7
+    react: ^18.0.26
+    react-dom: ^18.0.26
     rimraf: ^5.0.1
     source-map-loader: ^1.0.2
     style-loader: ^3.3.1
@@ -6199,7 +6199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
+"react-dom@npm:^18.0.26, react-dom@npm:^18.2.0":
   version: 18.3.1
   resolution: "react-dom@npm:18.3.1"
   dependencies:
@@ -6208,17 +6208,6 @@ __metadata:
   peerDependencies:
     react: ^18.3.1
   checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
-  languageName: node
-  linkType: hard
-
-"react-dom@npm:^19.2.7":
-  version: 19.2.7
-  resolution: "react-dom@npm:19.2.7"
-  dependencies:
-    scheduler: ^0.27.0
-  peerDependencies:
-    react: ^19.2.7
-  checksum: 9543b532a070c91751dd9aae77f5ee21d2aeada28e061080162433a5418f8ba98eadb869c76d82eff9f0475e5ff2b9e1cf31916ab6509f8ebc856be77361eb1c
   languageName: node
   linkType: hard
 
@@ -6236,19 +6225,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:>=17.0.0 <19.0.0, react@npm:^18.2.0":
+"react@npm:>=17.0.0 <19.0.0, react@npm:^18.0.26, react@npm:^18.2.0":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:
     loose-envify: ^1.1.0
   checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
-  languageName: node
-  linkType: hard
-
-"react@npm:^19.2.7":
-  version: 19.2.7
-  resolution: "react@npm:19.2.7"
-  checksum: be94ec2f1779b27cac328ddae18e52933c2977a2425b67039229ead45c62d0363b66e894076236616c8d98821a9a760fcbab8a9da8ae9c4b2849dfd12cc32a46
   languageName: node
   linkType: hard
 
@@ -6474,13 +6456,6 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
-  languageName: node
-  linkType: hard
-
-"scheduler@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "scheduler@npm:0.27.0"
-  checksum: 92644ead0a9443e20f9d24132fe93675b156209b9eeb35ea245f8a86768d0cc0fcca56f341eeef21d9b6dd8e72d6d5e260eb5a41d34b05cd605dd45a29f572ef
   languageName: node
   linkType: hard
 

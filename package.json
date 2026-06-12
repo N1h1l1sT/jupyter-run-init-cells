@@ -60,8 +60,8 @@
         "@jupyterlab/docregistry": "^4.5.8",
         "@jupyterlab/notebook": "^4.5.8",
         "@lumino/disposable": "^2.1.4",
-        "react": "^19.2.7",
-        "react-dom": "^19.2.7"
+        "react": "^18.0.26",
+        "react-dom": "^18.0.26"
     },
     "devDependencies": {
         "@jupyterlab/builder": "^4.5.8",
