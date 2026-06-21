@@ -35,9 +35,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
 
         const initCells: CodeCell[] = [];
         for (const cell of nb.widgets) {
-          const tags = (cell.model.sharedModel.getMetadata('tags') as string[]) ?? [];
+          const sharedModel = cell.model.sharedModel;
+          const tags = (sharedModel.getMetadata('tags') as string[]) ?? [];
           if (Array.isArray(tags) && tags.includes(TAG) && cell instanceof CodeCell) {
-            const code = cell.model.sharedModel.getSource();
+            const isReadOnly = sharedModel.getMetadata('editable') === false;
+            const isFrozen = sharedModel.getMetadata('frozen') === true;
+            if (isReadOnly || isFrozen) {
+              continue;
+            }
+            const code = sharedModel.getSource();
             if (!code.trim()) {
               continue;
             }
